@@ -28,3 +28,4 @@ LD_FIRST_OBJECTS = $(BUILD_ROOT_PATH)/main/startup_stm32h747xihx.o
 
 -include ./env.mk
 include ../../../cpmk/project.mk
+-include ../flash.mk
