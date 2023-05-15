@@ -1,0 +1,3 @@
+[submodule "cpmk"]
+	path = cpmk
+	url = https://github.com/sourcebox/cpmk.git
