@@ -21,6 +21,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h7xx_it.h"
 #include "main.h"
+#include "FreeRTOS.h"
+#include "task.h"
 
 /** @addtogroup STM32H7xx_HAL_Examples
   * @{
@@ -102,14 +104,6 @@ void UsageFault_Handler(void)
   }
 }
 
-/**
-  * @brief  This function handles SVCall exception.
-  * @param  None
-  * @retval None
-  */
-void SVC_Handler(void)
-{
-}
 
 /**
   * @brief  This function handles Debug Monitor exception.
@@ -121,23 +115,19 @@ void DebugMon_Handler(void)
 }
 
 /**
-  * @brief  This function handles PendSVC exception.
-  * @param  None
-  * @retval None
-  */
-void PendSV_Handler(void)
+ * @brief Not a IRQ Handler, but gets called when an assert hits.
+ * 
+ * @param pcFile 
+ * @param ulLine 
+ */
+void vAssertCalled( const char *pcFile, const uint32_t ulLine )
 {
-}
 
-/**
-  * @brief  This function handles SysTick Handler.
-  * @param  None
-  * @retval None
-  */
-void SysTick_Handler(void)
-{
-  HAL_IncTick();
-	
+	/* Assert disables interrupts so no other code can run, prints out the
+	location of the offending assert(), then loops doing nothing waiting for
+	the user to inspect or reset. */
+	taskDISABLE_INTERRUPTS();
+	for( ;; );
 }
   
 
@@ -148,21 +138,4 @@ void SysTick_Handler(void)
 /*  file (startup_stm32h7xx.s).                                               */
 /******************************************************************************/
 
-/**
-  * @brief  This function handles PPP interrupt request.
-  * @param  None
-  * @retval None
-  */
-/*void PPP_IRQHandler(void)
-{
-}*/
-
-
-/**
-  * @}
-  */ 
-
-/**
-  * @}
-  */
 

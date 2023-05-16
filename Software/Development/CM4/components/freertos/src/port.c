@@ -504,6 +504,7 @@ void xPortSysTickHandler( void )
      * known. */
     portDISABLE_INTERRUPTS();
     {
+        
         /* Increment the RTOS tick. */
         if( xTaskIncrementTick() != pdFALSE )
         {

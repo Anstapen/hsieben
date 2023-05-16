@@ -18,6 +18,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "FreeRTOS.h"
+#include "task.h"
+#include "ConsoleTask.h"
 
 /** @addtogroup STM32H7xx_HAL_Examples
   * @{
@@ -79,6 +82,14 @@ int main(void)
   /* Configure the system clock to 400 MHz */
   SystemClock_Config();  
 
+  /* AIEC Common configuration: make CPU1 and CPU2 SWI line0 sensitive to
+	rising edge. */
+	HAL_EXTI_EdgeConfig( EXTI_LINE0, EXTI_RISING_EDGE );
+
+	/* Interrupt used for M4 to M7 notifications. */
+	HAL_NVIC_SetPriority( EXTI1_IRQn, 0xFU, 0U );
+	HAL_NVIC_EnableIRQ( EXTI1_IRQn );
+
   /* When system initialization is finished, Cortex-M7 will release (wakeup) Cortex-M4  by means of 
      HSEM notification. Cortex-M4 release could be also ensured by any Domain D2 wakeup source (SEV,EXTI..).
   */
@@ -103,15 +114,16 @@ int main(void)
   /* Initialize LED 1 */
   BSP_LED_Init(LED1);
 
+  /* Create a Task */
+  xTaskCreate(Tasks::ConsoleTask, "Console Task", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY + 1, NULL);
+
   /* CM7 waits for CM4 to finish his task and HW semaphore 0 becomes taken */
   while(HAL_HSEM_IsSemTaken(HSEM_ID_0) == 0)
   {
   }
-  /* Add CM7 Job here */
-  /* CM7 set LED 1 ON for 2000 ms */
-  BSP_LED_On(LED1);
-  HAL_Delay(2000); 
-  BSP_LED_Off(LED1);  
+
+  /* Now both Cores are doing their thing */
+  vTaskStartScheduler();
 
   /* Infinite loop */
   while (1)
