@@ -44,7 +44,8 @@ _Min_Stack_Size = 0x400 ; /* required amount of stack */
 MEMORY
 {
 FLASH (rx)      : ORIGIN = 0x08100000, LENGTH = 1024K
-RAM (xrw)      : ORIGIN = 0x10000000, LENGTH = 288K
+SHARED_RAM(rwx) : ORIGIN = 0x38000000, LENGTH = 64K
+RAM (xrw)       : ORIGIN = 0x10000000, LENGTH = 288K
 }
 
 /* Define output sections */
@@ -154,6 +155,13 @@ SECTIONS
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
   } >RAM
+
+  /* Custom section for the ICMS module that resides in shared memory (SRAM4) */
+  .ICMS_memory :
+  {
+    . = ALIGN(8);
+    KEEP(*(.ICMS_section))
+  } >SHARED_RAM
 
   
 

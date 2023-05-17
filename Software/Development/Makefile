@@ -2,7 +2,7 @@ TOPTARGETS := all clean flash
 
 .DEFAULT_GOAL = all
 
-SUBDIRS := $(wildcard */.)
+SUBDIRS := $(wildcard CM*/.)
 
 $(TOPTARGETS): $(SUBDIRS)
 $(SUBDIRS):

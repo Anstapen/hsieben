@@ -24,6 +24,7 @@
 #include "message_buffer.h"
 
 #include "ProfilingTask.h"
+#include "ICMS.h"
 
 /** @addtogroup STM32H7xx_HAL_Examples
  * @{

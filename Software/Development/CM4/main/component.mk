@@ -1,1 +1,2 @@
 SOURCE_PATHS += $(BASE_PATH)/src
+SOURCE_PATHS += $(BASE_PATH)/../../common/ICMS/src

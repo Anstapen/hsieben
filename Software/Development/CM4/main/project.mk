@@ -1,1 +1,2 @@
 INCLUDE_PATHS += $(BASE_PATH)/inc
+INCLUDE_PATHS += $(BASE_PATH)/../../common/ICMS/inc
