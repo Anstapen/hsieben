@@ -45,7 +45,7 @@
 #if defined(__ICCARM__) || defined(__CC_ARM) || defined(__GNUC__)
 	#include <stdint.h>
 	extern uint32_t SystemD2Clock;
-	void vGenerateM4ToM7Interrupt( void * xUpdatedMessageBuffer );
+	void NotifyM7( void * xUpdatedMessageBuffer );
 #endif
 
 #define configUSE_PREEMPTION                    1
@@ -68,6 +68,8 @@
 #define configUSE_APPLICATION_TASK_TAG          0
 #define configUSE_COUNTING_SEMAPHORES           1
 #define configGENERATE_RUN_TIME_STATS           0
+
+#define configSUPPORT_STATIC_ALLOCATION			1
 
 /* Co-routine definitions. */
 #define configUSE_CO_ROUTINES                   0
@@ -132,7 +134,7 @@ header file. */
 
 /* Override the default implementation of sbRECEIVE_COMPLETED so the macro
 creates an interrupt in the M7 core.  See the comments at the top of main.c. */
-#define sbRECEIVE_COMPLETED( pxStreamBuffer ) vGenerateM4ToM7Interrupt( pxStreamBuffer )
+#define sbRECEIVE_COMPLETED( pxStreamBuffer ) NotifyM7( pxStreamBuffer )
 
 #endif /* FREERTOS_CONFIG_H */
 

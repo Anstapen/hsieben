@@ -1,8 +1,10 @@
 /**
   ******************************************************************************
-  * @file    HSEM/HSEM_CoreSync/CM7/Src/stm32h7xx_it.c
+  * @file    Templates/BootCM7_CM4Gated/CM4/Src/stm32h7xx_it.c
   * @author  MCD Application Team
-  * @brief   Main Interrupt Service Routines for Cortex-M7.
+  * @brief   Main Interrupt Service Routines for Cortex-M4.
+  *          This file provides template for all exceptions handler and 
+  *          peripherals interrupt service routine.
   ******************************************************************************
   * @attention
   *
@@ -17,14 +19,18 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "main.h"
 #include "stm32h7xx_it.h"
+#include "main.h"
+#include "FreeRTOS.h"
+#include "task.h"
+#include "message_buffer.h"
+#include "ICMS.h"
 
 /** @addtogroup STM32H7xx_HAL_Examples
   * @{
   */
 
-/** @addtogroup GPIO_IOToggle
+/** @addtogroup Templates
   * @{
   */
 
@@ -32,16 +38,15 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
 /******************************************************************************/
-/*            Cortex-M7 Processor Exceptions Handlers                         */
+/*            Cortex-M4 Processor Exceptions Handlers                         */
 /******************************************************************************/
 
 /**
-  * @brief  This function handles NMI exception.
+  * @brief   This function handles NMI exception.
   * @param  None
   * @retval None
   */
@@ -111,6 +116,23 @@ void DebugMon_Handler(void)
 {
 }
 
+/**
+ * @brief Not a IRQ Handler, but gets called when an assert hits.
+ * 
+ * @param pcFile 
+ * @param ulLine 
+ */
+void vAssertCalled( const char *pcFile, const uint32_t ulLine )
+{
+
+	/* Assert disables interrupts so no other code can run, prints out the
+	location of the offending assert(), then loops doing nothing waiting for
+	the user to inspect or reset. */
+	taskDISABLE_INTERRUPTS();
+	for( ;; );
+}
+  
+
 /******************************************************************************/
 /*                 STM32H7xx Peripherals Interrupt Handlers                   */
 /*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */
@@ -118,20 +140,11 @@ void DebugMon_Handler(void)
 /*  file (startup_stm32h7xx.s).                                               */
 /******************************************************************************/
 
-/**
-  * @brief  This function handles PPP interrupt request.
-  * @param  None
-  * @retval None
-  */
-/*void PPP_IRQHandler(void)
+void HAL_GPIO_EXTI_Callback( uint16_t GPIO_Pin )
 {
-}*/
+  BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+  HAL_EXTI_D2_ClearFlag( EXTI_LINE0 );
 
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
+  xMessageBufferSendCompletedFromISR(ICMS::GetMessageBuffer(), &xHigherPriorityTaskWoken);
+  portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
+}
