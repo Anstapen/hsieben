@@ -11,13 +11,14 @@ void Tasks::ProfilingTask(void *pvParameters)
     /* Tell the compiler that we do not use this for now */
     (void)pvParameters;
 
-    configASSERT(ICMS::IsInitialized());
+    //configASSERT(ICMS::IsInitialized());
+    volatile uint32_t value;
+    BSP_LED_On(LED3);
 
     /* Simple Task structure */
     for (;;)
     {
-        uint32_t value;
-        xMessageBufferReceive(ICMS::GetMessageBuffer(),&value, sizeof(uint32_t), portMAX_DELAY);
+        xMessageBufferReceive(ICMS::GetMessageBuffer(), (void*)&value, sizeof(uint32_t), pdMS_TO_TICKS(100));
         /* For now, we just do a simple LED Toggle to show that the task is doing something */
         BSP_LED_Toggle(LED3);
     }

@@ -148,3 +148,8 @@ void HAL_GPIO_EXTI_Callback( uint16_t GPIO_Pin )
   xMessageBufferSendCompletedFromISR(ICMS::GetMessageBuffer(), &xHigherPriorityTaskWoken);
   portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
 }
+
+void WWDG_RST_IRQHandler()
+{
+  while(1);
+}

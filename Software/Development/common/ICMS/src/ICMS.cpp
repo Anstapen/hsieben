@@ -37,11 +37,21 @@ bool ICMS::Init()
                                                                instance.controlMessageBuffer_RAW,
                                                                &instance.controlMessageBufferStruct);
 
+    if(instance.controlMessageBuffer == NULL)
+    {
+        return false;
+    }
+
     /* Create the 1st Data message buffer */
     instance.dataMessageBuffer[0] = xMessageBufferCreateStatic(DATA_BUFFER_BYTES,
                                                                &(instance.dataMessageBuffer_RAW[0][0]),
                                                                &(instance.dataMessageBufferStruct[0]));
 
+    if(instance.dataMessageBuffer[0] == NULL)
+    {
+        return false;
+    }
+    
     instance.is_initialized = true;
     return true;
 }

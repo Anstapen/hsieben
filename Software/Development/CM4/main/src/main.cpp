@@ -85,11 +85,25 @@ int main(void)
   /* Initialize LED 3 */
   BSP_LED_Init(LED3);
 
+  while(1)
+  {
+    
+  }
+
+  ICMS::Init();
+
   /*Add CM4 Job here */
 
   /* AIEC Common configuration: make CPU1 and CPU2 SWI line1 sensitive to
   rising edge. */
   HAL_EXTI_EdgeConfig(EXTI_LINE1, EXTI_RISING_EDGE);
+
+  /* ICMS Module has to be initialized by now */
+  if(!ICMS::IsInitialized())
+  {
+    BSP_LED_On(LED3);
+  }
+  
 
   /* Interrupt used for M7 to M4 notifications. */
   ICMS::SetInterrupts(ICMS::Core::CM4);
@@ -103,6 +117,8 @@ int main(void)
   HAL_HSEM_FastTake(HSEM_ID_0);
   /* Do not forget to release the HW semaphore 0 once needed */
   HAL_HSEM_Release(HSEM_ID_0, 0);
+
+  
 
   /* Now we start the scheduler */
   vTaskStartScheduler();

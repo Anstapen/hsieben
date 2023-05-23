@@ -83,6 +83,10 @@ int main(void)
   /* Configure the system clock to 400 MHz */
   SystemClock_Config();  
 
+  BSP_LED_Init(LED1);
+  ICMS::Init();
+  ICMS::SetInterrupts(ICMS::Core::CM7);
+
   /* AIEC Common configuration: make CPU1 and CPU2 SWI line0 sensitive to
 	rising edge. */
 	HAL_EXTI_EdgeConfig( EXTI_LINE0, EXTI_RISING_EDGE );
@@ -105,13 +109,10 @@ int main(void)
   {
     Error_Handler();
   }
-
   /* Add Cortex-M7 user application code here */ 
   /* Initialize LED 1 */
   /* Initialize LED 1 */
-  BSP_LED_Init(LED1);
-  ICMS::Init();
-  ICMS::SetInterrupts(ICMS::Core::CM7);
+  
 
   /* Create a Task */
   xTaskCreate(Tasks::ConsoleTask, "Console Task", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY + 1, NULL);

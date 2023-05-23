@@ -23,6 +23,7 @@
 #ifdef __cplusplus
  extern "C" {
 #endif 
+#include "stm32h7xx_hal.h"
 
 /* Includes ------------------------------------------------------------------*/
 /* Exported types ------------------------------------------------------------*/
@@ -39,6 +40,8 @@ void SVC_Handler(void);
 void DebugMon_Handler(void);
 void PendSV_Handler(void);
 void SysTick_Handler(void);
+void HAL_GPIO_EXTI_Callback( uint16_t GPIO_Pin );
+void WWDG_RST_IRQHandler();
 
 #ifdef __cplusplus
 }

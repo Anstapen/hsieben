@@ -1,3 +1,5 @@
+-include ./env.mk
+
 PROJECT_NAME := CM4_Firmware
 APPLICATION_TYPE := EMBEDDED
 TOOLCHAIN_PREFIX ?= arm-none-eabi-
@@ -26,6 +28,6 @@ SYMBOLS = DEBUG CORE_CM4 USE_HAL_DRIVER STM32H747xx USE_IOEXPANDER USE_STM32H747
 
 LD_FIRST_OBJECTS = $(BUILD_ROOT_PATH)/main/startup_stm32h747xihx.o
 
--include ./env.mk
+
 include ../../../cpmk/project.mk
 -include ../flash.mk
