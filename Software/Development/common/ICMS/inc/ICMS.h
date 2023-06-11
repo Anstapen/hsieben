@@ -41,6 +41,7 @@ public:
     static void GenerateInterrupt(Core core);
 public:
     static ICMS& Instance();
+    static ICMS* InstancePTR();
     static bool Init();
     static bool IsInitialized();
     static void SendReceiveCompleteISR();

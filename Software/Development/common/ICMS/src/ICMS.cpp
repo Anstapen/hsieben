@@ -25,6 +25,10 @@ ICMS &ICMS::Instance()
     static ICMS_MEM ICMS instance;
     return instance;
 }
+ICMS* ICMS::InstancePTR()
+{
+    return &(ICMS::Instance());
+}
 
 bool ICMS::Init()
 {
