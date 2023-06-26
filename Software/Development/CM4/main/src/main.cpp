@@ -30,8 +30,15 @@
 
 volatile uint32_t Notif_Recieved;
 
+static UART_HandleTypeDef xUARTHandle1;
+static UART_HandleTypeDef xUARTHandle2;
+
+static const uint8_t welcomeMessage1[] = "Hello There with UART 1!\n\r";
+static const uint8_t welcomeMessage8[] = "Hello There with UART 8!\n\r";
+
 static void WaitForCM7Wakeup(void);
 static bool SyncedCoreInit(void);
+static void UARTInit(void);
 
 int main(void)
 {
@@ -43,12 +50,13 @@ int main(void)
   */
   bool init_successful = SyncedCoreInit();
 
-  if(init_successful)
+  if (init_successful)
   {
     BSP_LED_On(LED3);
   }
 
-
+  //HAL_UART_Transmit(&xUARTHandle1, (uint8_t *)welcomeMessage1, sizeof(welcomeMessage1), HAL_MAX_DELAY);
+  //HAL_UART_Transmit(&xUARTHandle2, (uint8_t *)welcomeMessage8, sizeof(welcomeMessage8), HAL_MAX_DELAY);
 
   /* Now we start the scheduler */
   vTaskStartScheduler();
@@ -93,12 +101,13 @@ bool SyncedCoreInit(void)
   /* STM32 HAL Init */
   HAL_Init();
 
+  //UARTInit();
+
   /* For now, CM4 uses the LED 3 on the board. */
   BSP_LED_Init(LED3);
 
   /* Interrupt used for M7 to M4 notifications. */
   ICMS::SetInterrupts(ICMS::Core::CM4);
-
 
   /* FreeRTOS needs disabled interrupts to do its init stuff */
   taskDISABLE_INTERRUPTS();
@@ -155,4 +164,63 @@ void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, uint32_t
   Note that, as the array is necessarily of type StackType_t,
   configMINIMAL_STACK_SIZE is specified in words, not bytes. */
   *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
+}
+
+void UARTInit(void)
+{
+  xUARTHandle1.Instance = USART3;
+  xUARTHandle1.Init.BaudRate = 115200;
+  xUARTHandle1.Init.WordLength = UART_WORDLENGTH_8B;
+  xUARTHandle1.Init.StopBits = UART_STOPBITS_1;
+  xUARTHandle1.Init.Parity = UART_PARITY_NONE;
+  xUARTHandle1.Init.Mode = UART_MODE_TX_RX;
+  xUARTHandle1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  xUARTHandle1.Init.OverSampling = UART_OVERSAMPLING_16;
+  xUARTHandle1.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  xUARTHandle1.Init.ClockPrescaler = UART_PRESCALER_DIV1;
+  xUARTHandle1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  if (HAL_UART_Init(&xUARTHandle1) != HAL_OK)
+  {
+    configASSERT(0);
+  }
+  if (HAL_UARTEx_SetTxFifoThreshold(&xUARTHandle1, UART_TXFIFO_THRESHOLD_1_8) != HAL_OK)
+  {
+    configASSERT(0);
+  }
+  if (HAL_UARTEx_SetRxFifoThreshold(&xUARTHandle1, UART_RXFIFO_THRESHOLD_1_8) != HAL_OK)
+  {
+    configASSERT(0);
+  }
+  if (HAL_UARTEx_DisableFifoMode(&xUARTHandle1) != HAL_OK)
+  {
+    configASSERT(0);
+  }
+
+  xUARTHandle2.Instance = UART8;
+  xUARTHandle2.Init.BaudRate = 115200;
+  xUARTHandle2.Init.WordLength = UART_WORDLENGTH_8B;
+  xUARTHandle2.Init.StopBits = UART_STOPBITS_1;
+  xUARTHandle2.Init.Parity = UART_PARITY_NONE;
+  xUARTHandle2.Init.Mode = UART_MODE_TX_RX;
+  xUARTHandle2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  xUARTHandle2.Init.OverSampling = UART_OVERSAMPLING_16;
+  xUARTHandle2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  xUARTHandle2.Init.ClockPrescaler = UART_PRESCALER_DIV1;
+  xUARTHandle2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  if (HAL_UART_Init(&xUARTHandle2) != HAL_OK)
+  {
+    configASSERT(0);
+  }
+  if (HAL_UARTEx_SetTxFifoThreshold(&xUARTHandle2, UART_TXFIFO_THRESHOLD_1_8) != HAL_OK)
+  {
+    configASSERT(0);
+  }
+  if (HAL_UARTEx_SetRxFifoThreshold(&xUARTHandle2, UART_RXFIFO_THRESHOLD_1_8) != HAL_OK)
+  {
+    configASSERT(0);
+  }
+  if (HAL_UARTEx_DisableFifoMode(&xUARTHandle2) != HAL_OK)
+  {
+    configASSERT(0);
+  }
 }

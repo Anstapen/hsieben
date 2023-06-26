@@ -32,7 +32,6 @@ EXCLUDE_SOURCE_FILES += $(BASE_PATH)/Src/stm32h7xx_ll_lpuart.c \
 						$(BASE_PATH)/Src/stm32h7xx_hal_opamp_ex.c \
 						$(BASE_PATH)/Src/stm32h7xx_hal_smbus.c \
 						$(BASE_PATH)/Src/stm32h7xx_hal_tim.c \
-						$(BASE_PATH)/Src/stm32h7xx_hal_usart_ex.c \
 						$(BASE_PATH)/Src/stm32h7xx_hal_iwdg.c \
 						$(BASE_PATH)/Src/stm32h7xx_hal_adc_ex.c \
 						$(BASE_PATH)/Src/stm32h7xx_hal_sdram.c \
@@ -54,7 +53,6 @@ EXCLUDE_SOURCE_FILES += $(BASE_PATH)/Src/stm32h7xx_ll_lpuart.c \
 						$(BASE_PATH)/Src/stm32h7xx_hal_dts.c \
 						$(BASE_PATH)/Src/Legacy/stm32h7xx_hal_eth_ex.c \
 						$(BASE_PATH)/Src/Legacy/stm32h7xx_hal_eth.c \
-						$(BASE_PATH)/Src/stm32h7xx_hal_uart.c \
 						$(BASE_PATH)/Src/stm32h7xx_hal_comp.c \
 						$(BASE_PATH)/Src/stm32h7xx_hal_timebase_tim_template.c \
 						$(BASE_PATH)/Src/stm32h7xx_ll_rng.c \
@@ -80,7 +78,6 @@ EXCLUDE_SOURCE_FILES += $(BASE_PATH)/Src/stm32h7xx_ll_lpuart.c \
 						$(BASE_PATH)/Src/stm32h7xx_hal_sai.c \
 						$(BASE_PATH)/Src/stm32h7xx_hal_ospi.c \
 						$(BASE_PATH)/Src/stm32h7xx_hal_dac.c \
-						$(BASE_PATH)/Src/stm32h7xx_hal_usart.c \
 						$(BASE_PATH)/Src/stm32h7xx_hal_pcd_ex.c \
 						$(BASE_PATH)/Src/stm32h7xx_ll_sdmmc.c \
 						$(BASE_PATH)/Src/stm32h7xx_ll_spi.c \
@@ -118,7 +115,8 @@ EXCLUDE_SOURCE_FILES += $(BASE_PATH)/Src/stm32h7xx_ll_lpuart.c \
 						$(BASE_PATH)/Src/stm32h7xx_hal_dma.c \
 						$(BASE_PATH)/Src/stm32h7xx_hal_dac_ex.c \
 						$(BASE_PATH)/Src/stm32h7xx_hal_smartcard_ex.c \
-						$(BASE_PATH)/Src/stm32h7xx_hal_uart_ex.c \
+						$(BASE_PATH)/Src/stm32h7xx_hal_usart_ex.c \
+					  	$(BASE_PATH)/Src/stm32h7xx_hal_usart.c \
 						$(BASE_PATH)/Src/stm32h7xx_ll_bdma.c
 
 
@@ -129,4 +127,6 @@ EXTRA_SOURCE_FILES += $(BASE_PATH)/Src/stm32h7xx_hal.c \
 					  $(BASE_PATH)/Src/stm32h7xx_hal_pwr.c \
 					  $(BASE_PATH)/Src/stm32h7xx_hal_gpio.c \
 					  $(BASE_PATH)/Src/stm32h7xx_hal_rcc_ex.c \
+					  $(BASE_PATH)/Src/stm32h7xx_hal_uart_ex.c \
+					  $(BASE_PATH)/Src/stm32h7xx_hal_uart.c \
 					  $(BASE_PATH)/Src/stm32h7xx_hal_rcc.c

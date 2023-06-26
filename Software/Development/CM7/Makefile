@@ -21,7 +21,7 @@ CXXFLAGS = -std=gnu++17 $(OPT_FLAGS) $(ARCH_FLAGS) $(ERROR_FLAGS) -fno-exception
 
 ASFLAGS = -x assembler-with-cpp $(ARCH_FLAGS)
 
-LDFLAGS = -T$(LD_SCRIPT) -Xlinker --gc-sections --specs=nano.specs -Wl,--print-memory-usage \
+LDFLAGS = -T$(LD_SCRIPT) -Xlinker --gc-sections --specs=nano.specs -specs=nosys.specs -Wl,--print-memory-usage \
 -fno-rtti -fno-exceptions -static $(OPT_FLAGS) $(ARCH_FLAGS) $(ERROR_FLAGS)
 
 SYMBOLS = DEBUG CORE_CM7 USE_HAL_DRIVER STM32H747xx USE_IOEXPANDER USE_STM32H747I_EVAL
